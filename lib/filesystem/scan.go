@@ -57,13 +57,8 @@ func (scanner *FileSystemScanner) ScanFileAtPath(filePath string) (nonInclusiveT
 		return
 	}
 	fileContent := strings.ToLower(string(fileBytes))
-	termsSearchFormat := fmt.Sprintf("(%s)", strings.Join(scanner.Config.Terms, "|"))
-	termsSearchFormat = strings.ReplaceAll(termsSearchFormat, "|)", ")")
-	regex, err := regexp.Compile(termsSearchFormat)
-	if err != nil {
-		return
-	}
-	nonInclusiveTermsUsed = regex.FindStringSubmatch(fileContent)
+	re := regexp.MustCompile("(?i)((" +  strings.Join(scanner.Config.Terms, ")|(") + "))")
+	nonInclusiveTermsUsed = append(nonInclusiveTermsUsed, re.FindAllString(fileContent, -1)...)
 	return
 }
 
