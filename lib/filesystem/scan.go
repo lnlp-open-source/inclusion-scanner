@@ -19,6 +19,24 @@ func NewFileSystemScanner(config *configuration.Configuration) *FileSystemScanne
 	return &FileSystemScanner{Config: config}
 }
 
+func unique(arr []string) []string {
+	occured := map[string]bool{}
+	result := []string{}
+	for e := range arr {
+
+		// check if already the mapped
+		// variable is set to true or not
+		if occured[arr[e]] != true {
+			occured[arr[e]] = true
+
+			// Append to result slice.
+			result = append(result, arr[e])
+		}
+	}
+
+	return result
+}
+
 func (scanner *FileSystemScanner) ScanDirectory(directoryPath string) error {
 	return filepath.Walk(directoryPath, func(path string, info os.FileInfo, err error) error {
 		if info.IsDir() {
@@ -36,7 +54,7 @@ func (scanner *FileSystemScanner) ScanDirectory(directoryPath string) error {
 			return fmt.Errorf("Failed to scan file, %v", scanError)
 		}
 		if len(nonInclusiveTermsUsed) > 0 {
-			fmt.Printf("File %s contains non-inclusive terms: %s\n", path, strings.Join(nonInclusiveTermsUsed, ", "))
+			fmt.Printf("File %s contains non-inclusive terms: %s\n", path, strings.Join(unique(nonInclusiveTermsUsed), ", "))
 			return elasticsearch.StoreScan(scanner.Config, path, nonInclusiveTermsUsed)
 		}
 		return nil
