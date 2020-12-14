@@ -1,0 +1,73 @@
+scanners:
+  repositories:
+    # NOTE: a timestamp formatted as '-YYYY-MM-DD' is appended to the index
+    database_index: inclusion-scanner-repositories
+
+# A ElasticSearch host is required and provided by docker-compose.yaml
+elasticsearch:
+  url: http://localhost:9200
+
+# Words to scan for. Note: terms are not case sensitive
+terms:
+  - "master"
+  - "slave"
+  - "blacklist"
+  - "black-list"
+  - "black list"
+  - "whitelist"
+  - "white-list"
+  - "white list"
+  - "whitebox"
+  - "white-box"
+  - "white box"
+  - "blackbox"
+  - "black-box"
+  - "black box"
+  - "blacklist"
+  - "black-list"
+  - "blacklisted"
+  - "black-listed"
+  - "whitelisted"
+  - "white-listed"
+  - "white listed"
+  - "grooming"
+  - "groomed"
+  - "dummy"
+  - "sanity"
+  - "offshore"
+  - "tribal"
+  - "man hours"
+  - "man-hours"
+  - "manhours"
+
+# File extensions included in the scan
+included_extensions:
+  - ".yaml"
+  - ".yml"
+  - ".json"
+  - ".js"
+  - ".go"
+  - ".java"
+  - ".scala"
+  - ".cs"
+  - ".fs"
+  - ".pipeline"
+  - ".md"
+  - ".txt"
+  - "Jenkinsfile"
+
+# Ignore directories that may contain lots of generated files
+excluded_directories:
+  - ".git"
+  - ".DS_Store"
+  - "node_modules"
+  - "jspm_packages"
+  - "web_modules"
+  - "build"
+  - "develop-eggs"
+  - "dist"
+  - "downloads"
+  - "eggs"
+  - ".eggs"
+  - "wheels"
+  - "python-wheel"
