@@ -5,10 +5,10 @@ Inclusion Scanner
 Inclusion & Diversity are integral to enhancing our culture by attracting, developing, retaining, promoting and rewarding talent to drive our organization’s mission of advancing the Rule of Law around the world.  We are committed to eliminating systemic racism in our legal systems and to being an advocate for Black lives.
 
 ### Taking Action
-Inclusion Scanner provides users with the ability to scan for racist and non-inclusive terms inside project files then receive a report of findings so that they can be corrected with alternative terms.
+Inclusion Scanner provides users with the ability to scan for racist and non-inclusive terms inside project files then analyze the results using a dashboard so they can be corrected with alternative terms.
 
 ### Terms
-The project provides a set of racist and potentially non-inclusive terms. Beyond the default terms, users can add additional terms to the list to be included in the scan.
+The project provides a set of racist and potentially non-inclusive terms. Beyond the default terms, users can add or remove terms in the configuration to be included in the scan.
 
 ---
 
@@ -97,6 +97,8 @@ File /Users/me/projects/myproject/main.go contains non-inclusive term(s): blackl
 ### Visualize The Results
 If the docker-compose.yaml file was used then Kibana is available at `localhost:5601` by default.
 Go to Kibana and view the index named `inclusion-scanner-repositories-YYYY-MM-DD`. This index name can be changed in config.yml.
+
+See `VISUALIZATION.md` for more details.
 
 #### Teardown
 ```shell
