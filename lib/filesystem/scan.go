@@ -23,17 +23,11 @@ func unique(arr []string) []string {
 	occured := map[string]bool{}
 	result := []string{}
 	for e := range arr {
-
-		// check if already the mapped
-		// variable is set to true or not
-		if occured[arr[e]] != true {
+		if !occured[arr[e]] {
 			occured[arr[e]] = true
-
-			// Append to result slice.
 			result = append(result, arr[e])
 		}
 	}
-
 	return result
 }
 
@@ -75,7 +69,7 @@ func (scanner *FileSystemScanner) ScanFileAtPath(filePath string) (nonInclusiveT
 		return
 	}
 	fileContent := strings.ToLower(string(fileBytes))
-	re := regexp.MustCompile("(?i)((" +  strings.Join(scanner.Config.Terms, ")|(") + "))")
+	re := regexp.MustCompile("(?i)((" + strings.Join(scanner.Config.Terms, ")|(") + "))")
 	nonInclusiveTermsUsed = append(nonInclusiveTermsUsed, re.FindAllString(fileContent, -1)...)
 	return
 }
