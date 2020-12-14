@@ -103,6 +103,9 @@ Go to Kibana and view the index named `inclusion-scanner-repositories-YYYY-MM-DD
 docker-compose down
 ```
 
+### Note about Filepaths
+
+When running the inclusion scanner, it is best to put the executable in your path and run the executable from the project root directly, however, if this is not possible then use absolute paths instead of relative paths.
 ---
 
 ### MIT License
