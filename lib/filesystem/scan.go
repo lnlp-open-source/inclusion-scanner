@@ -19,6 +19,18 @@ func NewFileSystemScanner(config *configuration.Configuration) *FileSystemScanne
 	return &FileSystemScanner{Config: config}
 }
 
+func unique(arr []string) []string {
+	occured := map[string]bool{}
+	result := []string{}
+	for e := range arr {
+		if !occured[arr[e]] {
+			occured[arr[e]] = true
+			result = append(result, arr[e])
+		}
+	}
+	return result
+}
+
 func (scanner *FileSystemScanner) ScanDirectory(directoryPath string) error {
 	return filepath.Walk(directoryPath, func(path string, info os.FileInfo, err error) error {
 		if info.IsDir() {
@@ -36,7 +48,7 @@ func (scanner *FileSystemScanner) ScanDirectory(directoryPath string) error {
 			return fmt.Errorf("Failed to scan file, %v", scanError)
 		}
 		if len(nonInclusiveTermsUsed) > 0 {
-			fmt.Printf("File %s contains non-inclusive terms: %s\n", path, strings.Join(nonInclusiveTermsUsed, ", "))
+			fmt.Printf("File %s contains non-inclusive terms: %s\n", path, strings.Join(unique(nonInclusiveTermsUsed), ", "))
 			return elasticsearch.StoreScan(scanner.Config, path, nonInclusiveTermsUsed)
 		}
 		return nil
@@ -57,7 +69,7 @@ func (scanner *FileSystemScanner) ScanFileAtPath(filePath string) (nonInclusiveT
 		return
 	}
 	fileContent := strings.ToLower(string(fileBytes))
-	re := regexp.MustCompile("(?i)((" +  strings.Join(scanner.Config.Terms, ")|(") + "))")
+	re := regexp.MustCompile("(?i)((" + strings.Join(scanner.Config.Terms, ")|(") + "))")
 	nonInclusiveTermsUsed = append(nonInclusiveTermsUsed, re.FindAllString(fileContent, -1)...)
 	return
 }
